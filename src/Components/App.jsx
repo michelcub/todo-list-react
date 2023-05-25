@@ -11,22 +11,25 @@ export const App = () => {
   
 
   const saveDataLocalStorage = (data) => {
-    data!=[]?localStorage.setItem('dataList', JSON.stringify(data)):null;
+    data?.length&&localStorage.setItem('dataList', JSON.stringify(data));
     
   }
 
   const getTasksFromLocalStorage = () => {
-    setStorage(() => [...[localStorage.getItem('dataList')]]) ;
+    setStorage(() => JSON.parse(localStorage.getItem('dataList'))) ;
   }
   
   const createTask = (task) => {
-    setData(() => [...data, {'task':task, 'show': false}]);
-    saveDataLocalStorage(data);
+    setData((prevValue) => {
+      const newState = [...prevValue, {'task':task, 'show': false}];
+      saveDataLocalStorage(newState);
+      return newState;
+  });
     getTasksFromLocalStorage();
   }
-  console.log('data' + data)
-  console.log('storage' + storage)
-  console.log('data' + storage)
+  //console.log('data' + data)
+  //console.log('storage' + storage)
+  //console.log('data' + storage)
   
 
   
